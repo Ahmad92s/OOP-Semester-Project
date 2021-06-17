@@ -205,9 +205,8 @@ void hotel::save() {
 	remove("Rooms.dat");
 
 	fout.open("Customers.dat");
-	fout.open("Rooms.dat");
 	fout << noOfcustomers << endl;
-	for (int i = 0; i < noOfcustomers; i++)
+	for (int i = 1; i < noOfcustomers; i++)
 	{
 		string x;
 		x = customerList[i].getFileData();
