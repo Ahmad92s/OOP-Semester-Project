@@ -12,7 +12,7 @@ customer::customer() {
 	reservedDays = 0;
 	floorNo = 0;
 	roomType = 0;
-	roomNo = 0;
+	roomNo = -1;
 	strcpy(cinTime, "xx.xx");
 	strcpy(cinDate, "xx.xx.xxxx");
 	strcpy(coutTime, "xx.xx");
@@ -22,6 +22,7 @@ customer::customer() {
 istream& operator>>(istream& in, customer& obj)
 {
 	cout << "Enter Name : ";
+	in.ignore();
 	getline(in, obj.name, '\n');
 	cout << "Enter Age : ";
 	in >> obj.age;

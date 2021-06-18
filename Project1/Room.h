@@ -13,6 +13,8 @@ public:
 	void unreserve();
 	virtual bool reserve() = 0;
 
+	void setStatus(bool status);
+
 	int getPrice();
 	bool getStatus();
 };

@@ -13,6 +13,10 @@ void room::unreserve() {
 	this->reserved = false;
 }
 
+void room::setStatus(bool status) {
+	reserved = status;
+}
+
 int room::getPrice() {
 	return price;
 }

@@ -69,6 +69,10 @@ void hotel::addcustomer(const char* curtime, const char* curdate) {
 			if (customerList[i].getID() == id) {
 				found = true;
 				customer_index = i;
+				if (customerList[i].getroomNo() == -1) {
+					cout << "You already have a room reserved. Check out first.\n";
+					return;
+				}
 				break;
 			}
 		}
@@ -114,9 +118,13 @@ void hotel::checkin(string id, char* datenow, char* timenow) {
 
 			customerList[i].setcinTime(timenow);
 			customerList[i].setcinDate(datenow);
+
 			cinCount++;
+			cout << "You checked in at: " << datenow << ", " << timenow << endl;
+			return;
 		}
 	}
+	cout << "Customer not found!\n";
 }
 void hotel::checkout(string id, char* datenow, char* timenow) {
 	for (int i = 0; i < noOfcustomers; i++)
@@ -125,12 +133,16 @@ void hotel::checkout(string id, char* datenow, char* timenow) {
 
 			customerList[i].setcoutTime(timenow);
 			customerList[i].setcoutDate(datenow);
+			customerList[i].setRoomNo(-1);
 
 			roomList[customerList[i].getroomNo()][0].unreserve();
 
 			coutCount++;
+			cout << "You checked out at: " << datenow << ", " << timenow << endl;
+			return;
 		}
 	}
+	cout << "Customer not found!\n";
 }
 void hotel::showRoomData() {
 	int type = 1;
@@ -223,7 +235,7 @@ void hotel::save() {
 }
 void hotel::load() {
 	ifstream fin;
-	fin.open("Customer.dat");
+	fin.open("Customers.dat");
 	if (fin.is_open())
 	{
 		fin >> noOfcustomers;
@@ -234,4 +246,12 @@ void hotel::load() {
 		}
 		fin.close();
 	}
+	fin.open("Rooms.dat");
+	for (int i = 0; i < 250; i++)
+	{
+		bool status;
+		fin >> status;
+		roomList[i][0].setStatus(status);
+	}
+	fin.close();
 }
