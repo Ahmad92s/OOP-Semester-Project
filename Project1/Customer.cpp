@@ -2,9 +2,9 @@
 #include "Customer.h"
 
 customer::customer() {
-	name = "";
-	strcpy(reservedTime, "");
-	strcpy(reservedDate, "");
+	name = "mr. x";
+	strcpy(reservedTime, "xx.xx");
+	strcpy(reservedDate, "xx.xx.xxxx");
 	age = 0;
 	gender = 'X';
 	IDnumber = "0900-78601";
@@ -13,16 +13,16 @@ customer::customer() {
 	floorNo = 0;
 	roomType = 0;
 	roomNo = 0;
-	strcpy(cinTime, "");
-	strcpy(cinDate, "");
-	strcpy(coutTime, "");
-	strcpy(coutDate, "");
+	strcpy(cinTime, "xx.xx");
+	strcpy(cinDate, "xx.xx.xxxx");
+	strcpy(coutTime, "xx.xx");
+	strcpy(coutDate, "xx.xx.xxxx");
 	TimeLeft = 0;
 }
 istream& operator>>(istream& in, customer& obj)
 {
 	cout << "Enter Name : ";
-	in >> obj.name;
+	getline(in, obj.name, '\n');
 	cout << "Enter Age : ";
 	in >> obj.age;
 	cout << "Enter Gender : ";
@@ -35,6 +35,19 @@ istream& operator>>(istream& in, customer& obj)
 	roomType = 0;
 	roomNo = 0;*/
 	return in;
+}
+
+void customer::setName(string n) {
+	name = n;
+}
+void customer::setAge(int a) {
+	age = a;
+}
+void customer::setGender(char g) {
+	gender = g;
+}
+void customer::setID(string ID) {
+	IDnumber = ID;
 }
 void customer::setTimeLeft(const char* currentdate) {
 	cout << "reserved date : ";
@@ -129,7 +142,16 @@ void customer::setreservedDate(const char* date) {
 
 string customer::getFileData() {
 	string x;
-	x = name + " " + to_string(age) + " " + gender + " " + IDnumber + " " + to_string(balance);
+	x = to_string(age) + " " + gender + " " + IDnumber + " " + to_string(balance) + " " + to_string(reservedDays);
+	x += " " + to_string(floorNo) + " " + to_string(roomType) + " " + to_string(roomNo) + " " + reservedTime + " " + reservedDate + " " + cinTime + " " + cinDate + " " + coutTime + " " + coutDate + " " + to_string(TimeLeft) + " " + name;
 
 	return x;
+}
+void customer::loadCustomer(ifstream& fin) {
+	fin >> age >> gender >> IDnumber >> balance >> reservedDays >> floorNo >> roomType >> roomNo >> reservedTime >> reservedDate >> cinTime >> cinDate >> coutTime >> coutDate;
+	fin >> TimeLeft;
+	fin >> name;
+	string surname;
+	fin >> surname;
+	name += (" " + surname);
 }

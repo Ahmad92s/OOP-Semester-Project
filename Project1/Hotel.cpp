@@ -86,7 +86,7 @@ void hotel::addcustomer(const char* curtime, const char* curdate) {
 		if (roomList[i][0].reserve()) {
 			cout << "Your Room number is: #" << i << endl;
 			customerList[customer_index].setRoomNo(i);
-			customerList[customer_index].setFloorNo((i - (type * 50)) / 10 + 1);
+			customerList[customer_index].setFloorNo(((type * 50)) / 10 + 1);
 			cout << "Number of days to reserve for: ";
 			int days;
 			cin >> days;
@@ -206,12 +206,32 @@ void hotel::save() {
 
 	fout.open("Customers.dat");
 	fout << noOfcustomers << endl;
-	for (int i = 1; i < noOfcustomers; i++)
+	for (int i = 0; i < noOfcustomers; i++)
 	{
 		string x;
 		x = customerList[i].getFileData();
+		fout << x << endl;
 	}
+	fout.close();
+
+	fout.open("Rooms.dat");
+	for (int i = 0; i < 250; i++)
+	{
+		fout << roomList[i][0].getStatus() << endl;
+	}
+	fout.close();
 }
 void hotel::load() {
-
+	ifstream fin;
+	fin.open("Customer.dat");
+	if (fin.is_open())
+	{
+		fin >> noOfcustomers;
+		customerList = new customer[noOfcustomers];
+		for (int i = 0; i < noOfcustomers; i++)
+		{
+			customerList[i].loadCustomer(fin);
+		}
+		fin.close();
+	}
 }
