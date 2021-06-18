@@ -9,18 +9,21 @@ using namespace std;
 
 int main() {
 	char datenow[11], timenow[6];
-	cout << "Initializing program.\nEnter today's date(dd:mm:yyyy): ";
+	cout << "Initializing program.\nEnter today's date (dd:mm:yyyy): ";
+	cin.ignore();
 	cin.getline(datenow, 11);
-	cout << "Enter current time in 24h format: ";
+	cout << "Enter current time in 24h format (hh:mm): ";
+	cin.ignore(0);
 	cin.getline(timenow, 6);
 	system("CLS");
 
 	hotel hotel;
 	hotel.load();
+	hotel.deallocateRooms(timenow, datenow);
 
 	cout << "[ Hotel Grand Mangement Legendary Software - Menu ]\n";
 	cout << "\t1: Reserve a room\n\t2: Check In\n\t3: Check Out\n\t4: View Reserved Rooms\n\t";
-	cout << "5: See Detail Report\n\t6: Exit\nEnter choice: ";
+	cout << "5: See Detail Report\n\t6: Fast Forward Time\n\t7: Exit\nEnter choice: ";
 	int choice = 0;
 	cin >> choice;
 
@@ -47,6 +50,16 @@ int main() {
 			hotel.showReport();
 		}
 		else if (choice == 6) {
+			cout << "Date to jump into: ";
+			cin.ignore();
+			cin.getline(datenow, 11);
+			cout << "Time to jump into: ";
+			cin.ignore(0);
+			cin.getline(timenow, 6);
+
+			hotel.deallocateRooms(timenow, datenow);
+		}
+		else if (choice == 7) {
 			hotel.save();
 			break;
 		}

@@ -26,12 +26,13 @@ public:
     void setcoutDate(const char* date);
 	void setreservedTime(const char* time);
 	void setreservedDate(const char* date);
-	void setTimeLeft(const char* currentdate);
+	void setTimeLeft(const char* currentdate, const char* currenttime);
 
     string getID();
     int getreservedDays();
     int getroomNo();
 	string getFileData();
+	string getName();
 
 	bool Timeleft();
 	void loadCustomer(ifstream& fin);
@@ -52,5 +53,5 @@ private:
 	char cinDate[11];
 	char coutTime[6];
 	char coutDate[11];
-	int TimeLeft;
+	double TimeLeft;
 };

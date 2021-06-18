@@ -10,7 +10,7 @@ room::room(int price, bool reserved) {
 	this->reserved = reserved;
 }
 void room::unreserve() {
-	this->reserved = false;
+	reserved = false;
 }
 
 void room::setStatus(bool status) {

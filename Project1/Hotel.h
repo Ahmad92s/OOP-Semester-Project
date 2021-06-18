@@ -22,7 +22,7 @@ public:
 	void addcustomer(const char* curtime, const char* curdate);
 	void checkin(string id, char* datenow, char* timenow);
 	void checkout(string id, char* datenow, char* timenow);
-	void deallocateRooms();//deallocate rooms for whoever's time is up
+	void deallocateRooms(const char* curtime, const char* curdate);//deallocate rooms for whoever's time is up
 	void showRoomData();
 	void showReport();
 	void save();

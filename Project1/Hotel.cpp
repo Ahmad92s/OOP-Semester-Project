@@ -69,7 +69,7 @@ void hotel::addcustomer(const char* curtime, const char* curdate) {
 			if (customerList[i].getID() == id) {
 				found = true;
 				customer_index = i;
-				if (customerList[i].getroomNo() == -1) {
+				if (customerList[i].getroomNo() != -1) {
 					cout << "You already have a room reserved. Check out first.\n";
 					return;
 				}
@@ -84,7 +84,7 @@ void hotel::addcustomer(const char* curtime, const char* curdate) {
 	cout << "Which type of hotel do you want to reserve [1,2,3,4,5]: ";
 	int type = 0;
 	cin >> type;
-	customerList[noOfcustomers - 1].setRoomType(type);
+	customerList[customer_index].setRoomType(type);
 	for (int i = (type * 50 - 50); i < (type * 50); i++)
 	{
 		if (roomList[i][0].reserve()) {
@@ -107,6 +107,8 @@ void hotel::addcustomer(const char* curtime, const char* curdate) {
 			}
 			customerList[customer_index].setreservedTime(curtime);
 			customerList[customer_index].setreservedDate(curdate);
+			customerList[customer_index].setTimeLeft(curdate, curtime);
+
 			break;
 		}
 	}
@@ -133,9 +135,10 @@ void hotel::checkout(string id, char* datenow, char* timenow) {
 
 			customerList[i].setcoutTime(timenow);
 			customerList[i].setcoutDate(datenow);
-			customerList[i].setRoomNo(-1);
 
 			roomList[customerList[i].getroomNo()][0].unreserve();
+
+			customerList[i].setRoomNo(-1);
 
 			coutCount++;
 			cout << "You checked out at: " << datenow << ", " << timenow << endl;
@@ -233,6 +236,19 @@ void hotel::save() {
 	}
 	fout.close();
 }
+
+void hotel::deallocateRooms(const char* curtime, const char* curdate) {
+	for (int i = 0; i < noOfcustomers; i++)
+	{
+		customerList[i].setTimeLeft(curdate, curtime);
+		if (!customerList[i].Timeleft()) {
+			roomList[customerList[i].getroomNo()][0].unreserve();
+			customerList[i].setRoomNo(-1);
+			cout << customerList[i].getName() << "'s Time is over at our Legendary Hotel.\n";
+		}
+	}
+}
+
 void hotel::load() {
 	ifstream fin;
 	fin.open("Customers.dat");

@@ -50,9 +50,7 @@ void customer::setGender(char g) {
 void customer::setID(string ID) {
 	IDnumber = ID;
 }
-void customer::setTimeLeft(const char* currentdate) {
-	cout << "reserved date : ";
-	cin >> reservedDate;
+void customer::setTimeLeft(const char* currentdate, const char* currenttime) {
 	int cday = 0, cmonth = 0, cyear = 0;
 	int rday = 0, rmonth = 0, ryear = 0;
 	int l = 0;
@@ -86,11 +84,27 @@ void customer::setTimeLeft(const char* currentdate) {
 	Date d2 = { rday,rmonth,ryear };
 
 	TimeLeft = getDifference(d2, d1);
-	cout << "timeleft : " << TimeLeft << endl;
-	// ........
+
+	TimeLeft *= 24;
+
+	int ch = 0, cm = 0, rh = 0, rm = 0;
+
+	rh = (reservedTime[0] - '0') * 10;
+	rh += reservedTime[1] - '0';
+	ch = (currenttime[0] - '0') * 10;
+	ch += currenttime[1] - '0';
+	rm = (reservedTime[3] - '0') * 10;
+	rm += reservedTime[4] - '0';
+	cm = (currenttime[3] - '0') * 10;
+	cm += currenttime[4] - '0';
+
+	double diff = (rh/1.0 - ch/1.0);
+	diff += (rm / 60.0 - cm / 60.0);
+
+	TimeLeft += diff;
 }
 bool customer::Timeleft() {
-	if (reservedDays <= TimeLeft) {
+	if (TimeLeft <= 0) {
 		return false;
 	}
 	return true;
@@ -134,6 +148,10 @@ string customer::getID() {
 int customer::getroomNo() {
 	return roomNo;
 }
+string customer::getName() {
+	return name;
+}
+
 void customer::setreservedTime(const char* time) {
 	strcpy(reservedTime, time);
 }
