@@ -9,18 +9,23 @@ using namespace std;
 
 int main() {
 	char datenow[11], timenow[6];
-	cout << "Initializing program.\nEnter today's date (dd:mm:yyyy): ";
-	cin.ignore();
+	cout << "Initializing program.\nEnter today's date (dd.mm.yyyy): ";
+	cin.ignore(0);
 	cin.getline(datenow, 11);
-	cout << "Enter current time in 24h format (hh:mm): ";
+	cout << "Enter current time in 24h format (hh.mm): ";
 	cin.ignore(0);
 	cin.getline(timenow, 6);
 	system("CLS");
+
+	//formatting date if entered incorrectly
+	datenow[2] = '/';
+	datenow[5] = '/';
 
 	hotel hotel;
 	hotel.load();
 	hotel.deallocateRooms(timenow, datenow);
 
+	cout << "\tDate: " << datenow << ", Time: " << timenow << endl << endl;
 	cout << "[ Hotel Grand Mangement Legendary Software - Menu ]\n";
 	cout << "\t1: Reserve a room\n\t2: Check In\n\t3: Check Out\n\t4: View Reserved Rooms\n\t";
 	cout << "5: See Detail Report\n\t6: Fast Forward Time\n\t7: Exit\nEnter choice: ";

@@ -83,7 +83,7 @@ void customer::setTimeLeft(const char* currentdate, const char* currenttime) {
 	Date d1 = { cday,cmonth,cyear };
 	Date d2 = { rday,rmonth,ryear };
 
-	TimeLeft = getDifference(d2, d1);
+	TimeLeft = getDifference(d1, d2);
 
 	TimeLeft *= 24;
 
@@ -101,7 +101,7 @@ void customer::setTimeLeft(const char* currentdate, const char* currenttime) {
 	double diff = (rh/1.0 - ch/1.0);
 	diff += (rm / 60.0 - cm / 60.0);
 
-	TimeLeft += diff;
+	TimeLeft += (diff + (reservedDays * 24.0));
 }
 bool customer::Timeleft() {
 	if (TimeLeft <= 0) {

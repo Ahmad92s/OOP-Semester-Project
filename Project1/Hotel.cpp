@@ -41,16 +41,6 @@ hotel::~hotel() {
 }
 
 void hotel::addcustomer(const char* curtime, const char* curdate) {
-	customer* tempList;
-	noOfcustomers++;
-	tempList = new customer[noOfcustomers];
-	for (int i = 0; i < noOfcustomers - 1; i++)
-	{
-		tempList[i] = customerList[i];
-	}
-	customerList = tempList;
-	/*delete[] tempList;*/
-
 	char c;
 	cout << "Are you a new or old customer? Enter ('N'/'O'): ";
 	cin >> c;
@@ -58,6 +48,15 @@ void hotel::addcustomer(const char* curtime, const char* curdate) {
 	bool found = false;
 	int customer_index = noOfcustomers - 1;
 	if (c == 'N' || c == 'n') {
+		customer* tempList;
+		noOfcustomers++;
+		tempList = new customer[noOfcustomers];
+		for (int i = 0; i < noOfcustomers - 1; i++)
+		{
+			tempList[i] = customerList[i];
+		}
+		customerList = tempList;
+		/*delete[] tempList;*/
 		cin >> customerList[noOfcustomers - 1];
 	}
 	else if (c == 'O' || c == 'o') {
@@ -241,10 +240,12 @@ void hotel::deallocateRooms(const char* curtime, const char* curdate) {
 	for (int i = 0; i < noOfcustomers; i++)
 	{
 		customerList[i].setTimeLeft(curdate, curtime);
-		if (!customerList[i].Timeleft()) {
-			roomList[customerList[i].getroomNo()][0].unreserve();
-			customerList[i].setRoomNo(-1);
-			cout << customerList[i].getName() << "'s Time is over at our Legendary Hotel.\n";
+		if (customerList[i].getroomNo() >= 0) {
+			if (!customerList[i].Timeleft()) {
+				roomList[customerList[i].getroomNo()][0].unreserve();
+				customerList[i].setRoomNo(-1);
+				cout << customerList[i].getName() << "'s Time is over at our Legendary Hotel.\n";
+			}
 		}
 	}
 }
