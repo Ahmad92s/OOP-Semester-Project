@@ -58,6 +58,14 @@ void hotel::addcustomer(const char* curtime, const char* curdate) {
 		customerList = tempList;
 		/*delete[] tempList;*/
 		cin >> customerList[noOfcustomers - 1];
+		for (int i = 0; i < noOfcustomers - 1; i++)
+		{
+			if (customerList[noOfcustomers - 1].getID() == customerList[i].getID()) {
+				cout << "Customer with this ID already exists.\nRe-enter your details.\n";
+				i = 0;
+				cin >> customerList[noOfcustomers - 1];
+			}
+		}
 	}
 	else if (c == 'O' || c == 'o') {
 		cout << "Enter your ID number: ";
@@ -87,9 +95,9 @@ void hotel::addcustomer(const char* curtime, const char* curdate) {
 	for (int i = (type * 50 - 50); i < (type * 50); i++)
 	{
 		if (roomList[i][0].reserve()) {
-			cout << "Your Room number is: #" << i << endl;
+			cout << "Your Room number is: #" << i + 1 << endl;
 			customerList[customer_index].setRoomNo(i);
-			customerList[customer_index].setFloorNo(((type * 50)) / 10 + 1);
+			customerList[customer_index].setFloorNo(i / 50 + 1);
 			cout << "Number of days to reserve for: ";
 			int days;
 			cin >> days;
@@ -99,6 +107,7 @@ void hotel::addcustomer(const char* curtime, const char* curdate) {
 			cin >> c;
 			if (c == 'Y' || c == 'y') {
 				cout << roomList[i][0].getPrice() * customerList[customer_index].getreservedDays() << " paid succesfully.\n";
+				customerList[customer_index].setBalance(0);
 			}
 			else if (c == 'N' || c == 'n') {
 				cout << roomList[i][0].getPrice() * customerList[customer_index].getreservedDays() << " to be paid later.\n";
@@ -138,6 +147,7 @@ void hotel::checkout(string id, char* datenow, char* timenow) {
 			roomList[customerList[i].getroomNo()][0].unreserve();
 
 			customerList[i].setRoomNo(-1);
+			customerList[i].setBalance(0);
 
 			coutCount++;
 			cout << "You checked out at: " << datenow << ", " << timenow << endl;

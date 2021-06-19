@@ -170,7 +170,11 @@ void customer::loadCustomer(ifstream& fin) {
 	fin >> age >> gender >> IDnumber >> balance >> reservedDays >> floorNo >> roomType >> roomNo >> reservedTime >> reservedDate >> cinTime >> cinDate >> coutTime >> coutDate;
 	fin >> TimeLeft;
 	fin >> name;
-	string surname;
+	char fname[50]{ '\0' };
+	fin.getline(fname, 50, '\n');
+	name += fname;
+
+	/*string surname;
 	fin >> surname;
-	name += (" " + surname);
+	name += (" " + surname);*/
 }
